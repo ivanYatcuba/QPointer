@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_clock"
+            android:icon="@drawable/ic_menu_clock"
+            android:title="Clock"/>
+        <item
+            android:id="@+id/nav_color"
+            android:icon="@drawable/ic_menu_color"
+            android:title="Color"/>
+        <item
+            android:id="@+id/nav_laser"
+            android:icon="@drawable/ic_menu_laser"
+            android:title="Laser"/>
+        <item
+            android:id="@+id/nav_terminal"
+            android:icon="@drawable/ic_menu_terminal"
+            android:title="Terminal"/>
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_settings"
+            android:title="Settings"/>
+    </group>
+
+</menu>
