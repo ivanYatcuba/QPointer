@@ -1,14 +1,27 @@
 <resources>
 
-    <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
+    <attr name="nav_header" format="reference"/>
+
+    <style name="AppThemeDark" parent="Theme.AppCompat">
+        <item name="colorPrimary">@color/darkColorPrimary</item>
+        <item name="colorPrimaryDark">@color/darkColorPrimaryDark</item>
+        <item name="colorAccent">@color/darkColorAccent</item>
+        <item name="nav_header">@drawable/side_nav_bar_dark</item>
     </style>
 
-    <style name="AppTheme.NoActionBar">
+    <style name="AppThemeLight" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/lightColorPrimary</item>
+        <item name="colorPrimaryDark">@color/lightColorPrimaryDark</item>
+        <item name="colorAccent">@color/lightColorAccent</item>
+        <item name="nav_header">@drawable/side_nav_bar_light</item>
+    </style>
+
+    <style name="AppThemeLight.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppThemeDark.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>

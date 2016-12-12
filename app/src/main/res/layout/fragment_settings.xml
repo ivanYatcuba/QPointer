@@ -4,22 +4,37 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/device_list"
+    <TextView
+        android:layout_marginTop="20dp"
+        android:text="Theme"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textSize="20sp"
         android:layout_width="match_parent"
-        android:layout_weight="0.8"
-        android:layout_height="0dp" />
+        android:layout_height="wrap_content"/>
 
-    <Button
+    <RadioGroup
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
         android:layout_width="match_parent"
-        android:text="Scan"
-        android:id="@+id/scan_devices"
-        android:layout_marginRight="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_weight="0.2"
-        android:layout_height="0dp"/>
+        android:layout_height="match_parent">
+
+        <RadioButton
+            android:id="@+id/selector_light_theme"
+            android:text="Light Theme"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <RadioButton
+            android:layout_marginTop="20dp"
+            android:id="@+id/selector_dark_theme"
+            android:text="Dark Theme"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </RadioGroup>
+
 
 </LinearLayout>

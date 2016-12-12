@@ -23,14 +23,12 @@
             android:id="@+id/device_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
             android:textSize="20sp"/>
 
         <TextView
             android:id="@+id/device_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@android:color/white"
             android:textSize="14sp"
             android:text="01:23:45" />
 

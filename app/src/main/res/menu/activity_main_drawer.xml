@@ -19,6 +19,10 @@
             android:icon="@drawable/ic_menu_terminal"
             android:title="Terminal"/>
         <item
+            android:id="@+id/nav_device"
+            android:icon="@drawable/ic_menu_device"
+            android:title="Device"/>
+        <item
             android:id="@+id/nav_settings"
             android:icon="@drawable/ic_menu_settings"
             android:title="Settings"/>

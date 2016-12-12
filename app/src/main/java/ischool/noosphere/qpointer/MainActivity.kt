@@ -3,10 +3,7 @@ package ischool.noosphere.qpointer
 import android.app.Activity
 import android.app.Fragment
 import android.bluetooth.BluetoothAdapter
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -26,9 +23,20 @@ import ischool.noosphere.qpointer.presenter.MainPresenter
 import ischool.noosphere.qpointer.view.MainView
 import kotlinx.android.synthetic.main.app_bar_main.*
 
+
+
+
 class MainActivity : MvpAppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, MainView {
 
+    companion object MainActivity {
+        val PREFERENCES : String = "QPOINTER_PREFS"
+        val DEVICE_ADDRESS : String = "DEVICE_ADDRESS"
+        val APP_THEME : String = "APP_THEME"
 
+        enum class Theme { LIGHT, DARK }
+
+        var isLaunched : Boolean = false
+    }
 
     @InjectPresenter(type = PresenterType.GLOBAL)
     lateinit var mainPresenter: MainPresenter
@@ -41,7 +49,14 @@ class MainActivity : MvpAppCompatActivity(), NavigationView.OnNavigationItemSele
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
+        val theme = Theme.valueOf(getPreferences().getString(APP_THEME, Theme.LIGHT.name))
+
+        setTheme(theme)
+
         setContentView(R.layout.activity_main)
+
         val toolbar = findViewById(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
 
@@ -54,7 +69,25 @@ class MainActivity : MvpAppCompatActivity(), NavigationView.OnNavigationItemSele
         val navigationView = findViewById(R.id.nav_view) as NavigationView
         navigationView.setNavigationItemSelectedListener(this)
         navigationView.itemIconTintList = null
-        switchContent(ClockFragment())
+        navigationView.menu.getItem(0).isChecked = true
+        if(!isLaunched) {
+            switchContent(ClockFragment())
+            isLaunched = true
+        }
+    }
+
+    fun setTheme(theme : Theme) {
+        when(theme) {
+            Theme.LIGHT -> {
+                application.setTheme(R.style.AppThemeLight)
+                setTheme(R.style.AppThemeLight_NoActionBar)
+            }
+            Theme.DARK -> {
+                application.setTheme(R.style.AppThemeDark)
+                setTheme(R.style.AppThemeDark_NoActionBar)
+            }
+        }
+        getPreferences().edit().putString(APP_THEME, theme.name).apply()
     }
 
     public override fun onStart() {
@@ -77,8 +110,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationView.OnNavigationItemSele
     }
 
     private fun connectToDefaultDevice() {
-        val prefs = this.getSharedPreferences("QPOINTER_PREFS", 0)
-        val address = prefs.getString("DEVICE_ADDRESS", null)
+        val address = getPreferences().getString(DEVICE_ADDRESS, null)
         if(address != null) {
             mainPresenter.connect(address)
         }
@@ -106,6 +138,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationView.OnNavigationItemSele
             R.id.nav_color -> ColorFragment()
             R.id.nav_laser -> LaserFragment()
             R.id.nav_settings -> SettingsFragment()
+            R.id.nav_device -> DeviceFragment()
             R.id.nav_terminal -> TerminalFragment()
             else -> ClockFragment()
         })
@@ -131,8 +164,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationView.OnNavigationItemSele
     override fun notifyDeviceConnected(deviceAddress: String) {
         device_connected.setImageDrawable(resources.getDrawable(R.drawable.ic_device_connected))
         hideConnectingToDevice()
-        val prefs = this.getSharedPreferences("QPOINTER_PREFS", 0)
-        prefs.edit().putString("DEVICE_ADDRESS", deviceAddress).apply()
+        getPreferences().edit().putString(DEVICE_ADDRESS, deviceAddress).apply()
     }
 
     override fun notifyDeviceDisconnected() {
@@ -160,7 +192,10 @@ class MainActivity : MvpAppCompatActivity(), NavigationView.OnNavigationItemSele
                 }
             }
         }
-
-
     }
+
+    fun getPreferences() : SharedPreferences {
+        return this.getSharedPreferences(PREFERENCES, android.content.Context.MODE_PRIVATE)
+    }
+
 }
