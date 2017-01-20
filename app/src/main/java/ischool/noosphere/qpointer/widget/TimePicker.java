@@ -1,8 +1,5 @@
 package ischool.noosphere.qpointer.widget;
 
-import java.text.DateFormatSymbols;
-import java.util.Calendar;
-
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -13,6 +10,9 @@ import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.NumberPicker;
 import android.widget.NumberPicker.Formatter;
+
+import java.text.DateFormatSymbols;
+import java.util.Calendar;
 
 import ischool.noosphere.qpointer.R;
 
@@ -60,7 +60,7 @@ public class TimePicker extends FrameLayout {
     private int mCurrentMinute = 0; // 0-59
     private int mCurrentSeconds = 0; // 0-59
     private Boolean mIs24HourView = true;
-    private boolean mIsAm;
+    private Boolean mIsAm;
 
     // ui components
     private final NumberPicker mHourPicker;
@@ -313,7 +313,7 @@ public class TimePicker extends FrameLayout {
     /**
      * @return true if this is in 24 hour view else false.
      */
-    public boolean is24HourView() {
+    public Boolean is24HourView() {
         return mIs24HourView;
     }
 

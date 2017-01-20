@@ -21,6 +21,7 @@ import com.arellomobile.mvp.presenter.ProvidePresenterTag
 import ischool.noosphere.qpointer.fragment.*
 import ischool.noosphere.qpointer.presenter.MainPresenter
 import ischool.noosphere.qpointer.view.MainView
+import ischool.noosphere.sensebridge.fragment.AlarmFragment
 import kotlinx.android.synthetic.main.app_bar_main.*
 
 
@@ -140,6 +141,7 @@ class MainActivity : MvpAppCompatActivity(), NavigationView.OnNavigationItemSele
             R.id.nav_settings -> SettingsFragment()
             R.id.nav_device -> DeviceFragment()
             R.id.nav_terminal -> TerminalFragment()
+            R.id.nav_alarm -> AlarmFragment()
             else -> ClockFragment()
         })
 

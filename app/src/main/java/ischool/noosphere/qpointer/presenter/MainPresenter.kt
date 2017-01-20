@@ -16,7 +16,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 @InjectViewState
 class MainPresenter(context: Context) : MvpPresenter<MainView>() {
 
-    val bt : BluetoothSPP
+    val bt : BluetoothSPP = BluetoothSPP(context)
     val executor : BtCommandExecutor
 
     class BtCommandExecutor(bt : BluetoothSPP) {
@@ -52,7 +52,6 @@ class MainPresenter(context: Context) : MvpPresenter<MainView>() {
 
     init {
 
-        bt = BluetoothSPP(context)
         executor = BtCommandExecutor(bt)
 
         bt.setBluetoothConnectionListener(object : BluetoothSPP.BluetoothConnectionListener{
@@ -88,6 +87,14 @@ class MainPresenter(context: Context) : MvpPresenter<MainView>() {
     fun sendData(data: String) {
         if(bt.connectedDeviceName != null) {
             executor.addCommand(data)
+        }
+    }
+
+    fun sendData(data: List<String>) {
+        if(bt.connectedDeviceName != null) {
+            for(command in data) {
+                executor.addCommand(command)
+            }
         }
     }
 

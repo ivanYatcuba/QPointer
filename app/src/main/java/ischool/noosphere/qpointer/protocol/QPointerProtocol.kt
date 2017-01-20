@@ -1,6 +1,10 @@
 package ischool.noosphere.qpointer.protocol
 
+import android.util.Log
 import ischool.noosphere.qpointer.QPointerCommands
+import ischool.noosphere.sensebridge.model.Alarm
+import java.util.*
+
 
 object QPointerProtocol {
 
@@ -18,6 +22,24 @@ object QPointerProtocol {
 
     fun setColor(color: String) : String {
         return buildCommand(QPointerCommands.UC, color)
+    }
+
+    fun unsetAlarm():  String {
+        return buildCommand(QPointerCommands.AOFF, "")
+    }
+
+    fun setAlarm(alarm: Alarm): List<String> {
+        val cal = Calendar.getInstance()
+        cal.set(Calendar.HOUR_OF_DAY, alarm.hour)
+        cal.set(Calendar.MINUTE, alarm.minute)
+        cal.add(Calendar.MINUTE, -5)
+        val commands = LinkedList<String>()
+        commands.add(buildCommand(QPointerCommands.AOFF, ""))
+        Log.d("HOURS", formatTime(cal.get(Calendar.HOUR_OF_DAY)))
+        Log.d("MINUTE", formatTime(cal.get(Calendar.MINUTE)))
+        commands.add(buildCommand(QPointerCommands.AH, formatTime(cal.get(Calendar.HOUR_OF_DAY))))
+        commands.add(buildCommand(QPointerCommands.AM, formatTime(cal.get(Calendar.MINUTE))))
+        return commands
     }
 
     fun setLasers(leftLaser: Boolean, rightLaser: Boolean) : String {
