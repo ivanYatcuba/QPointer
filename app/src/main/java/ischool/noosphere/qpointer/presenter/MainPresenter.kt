@@ -3,6 +3,7 @@ package ischool.noosphere.qpointer.presenter
 import android.bluetooth.BluetoothDevice
 import android.content.Context
 import android.content.Intent
+import android.os.Handler
 import android.util.Log
 import app.akexorcist.bluetotohspp.library.BluetoothSPP
 import app.akexorcist.bluetotohspp.library.BluetoothState
@@ -19,14 +20,24 @@ class MainPresenter(context: Context) : MvpPresenter<MainView>() {
     val bt : BluetoothSPP = BluetoothSPP(context)
     val executor : BtCommandExecutor
 
+
     class BtCommandExecutor(bt : BluetoothSPP) {
 
         val bt : BluetoothSPP
         val commands : Queue<String>
 
+        val handler = Handler()
+        val nextRunnable: Runnable
+
+
         init {
             this.bt = bt
             this.commands = ConcurrentLinkedQueue()
+
+            this.nextRunnable = Runnable {
+                commands.poll()
+                executeNext()
+            }
         }
 
         fun addCommand(data: String) {
@@ -38,11 +49,15 @@ class MainPresenter(context: Context) : MvpPresenter<MainView>() {
 
         fun executeNext() {
             if(commands.size > 0) {
-                bt.send(commands.peek(), true)
+                val command = commands.peek()
+                Log.d("RT", command)
+                bt.send(command, true)
+                handler.postDelayed(nextRunnable, 1000)
             }
         }
 
         fun commandExecuted(executed: String) {
+            handler.removeCallbacks(nextRunnable)
             Log.d("BT", executed)
             commands.poll()
             executeNext()
@@ -85,6 +100,7 @@ class MainPresenter(context: Context) : MvpPresenter<MainView>() {
     }
 
     fun sendData(data: String) {
+        Log.e("DATA", data)
         if(bt.connectedDeviceName != null) {
             executor.addCommand(data)
         }
@@ -93,7 +109,7 @@ class MainPresenter(context: Context) : MvpPresenter<MainView>() {
     fun sendData(data: List<String>) {
         if(bt.connectedDeviceName != null) {
             for(command in data) {
-                executor.addCommand(command)
+                sendData(command)
             }
         }
     }

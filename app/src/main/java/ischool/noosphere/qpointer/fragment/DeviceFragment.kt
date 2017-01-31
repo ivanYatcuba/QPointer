@@ -92,7 +92,7 @@ class DeviceFragment : BaseQPointerFragment() {
     }
 
     private fun buildDeviceAdapter(devices: MutableList<BluetoothDevice>) : DevicesAdapter {
-        return DevicesAdapter(devices.map { d -> Device(d.name!!, d.address, d.bondState == BluetoothDevice.BOND_BONDED) },
+        return DevicesAdapter(devices.map { d -> Device(d.name ?: "", d.address, d.bondState == BluetoothDevice.BOND_BONDED) },
                 object : DevicesAdapter.OnDeviceSelected { override fun deviceSelected(deviceAddress: String) {
                     getMainPresenter().connect(deviceAddress)
                 } })

@@ -9,23 +9,23 @@ import java.util.*
 object QPointerProtocol {
 
     fun setHour(hour: Int) : String {
-        return buildCommand(QPointerCommands.UH, formatTime(hour))
+        return buildCommand(QPointerCommands.SET_HOURS, formatTime(hour))
     }
 
     fun setMinute(minute: Int) : String {
-        return buildCommand(QPointerCommands.UM, formatTime(minute))
+        return buildCommand(QPointerCommands.SET_MINUTES, formatTime(minute))
     }
 
     fun setSecond(second: Int) : String {
-        return buildCommand(QPointerCommands.US,  formatTime(second))
+        return buildCommand(QPointerCommands.SET_SECONDS,  formatTime(second))
     }
 
     fun setColor(color: String) : String {
-        return buildCommand(QPointerCommands.UC, color)
+        return buildCommand(QPointerCommands.SET_COLOR, color)
     }
 
     fun unsetAlarm():  String {
-        return buildCommand(QPointerCommands.AOFF, "")
+        return buildCommand(QPointerCommands.SET_ALARM_OFF, "")
     }
 
     fun setAlarm(alarm: Alarm): List<String> {
@@ -34,18 +34,18 @@ object QPointerProtocol {
         cal.set(Calendar.MINUTE, alarm.minute)
         cal.add(Calendar.MINUTE, -5)
         val commands = LinkedList<String>()
-        commands.add(buildCommand(QPointerCommands.AOFF, ""))
+        commands.add(buildCommand(QPointerCommands.SET_ALARM_OFF, ""))
         Log.d("HOURS", formatTime(cal.get(Calendar.HOUR_OF_DAY)))
         Log.d("MINUTE", formatTime(cal.get(Calendar.MINUTE)))
-        commands.add(buildCommand(QPointerCommands.AH, formatTime(cal.get(Calendar.HOUR_OF_DAY))))
-        commands.add(buildCommand(QPointerCommands.AM, formatTime(cal.get(Calendar.MINUTE))))
+        commands.add(buildCommand(QPointerCommands.SET_ALARM_HOURS, formatTime(cal.get(Calendar.HOUR_OF_DAY))))
+        commands.add(buildCommand(QPointerCommands.SET_ALARM_MINUTES, formatTime(cal.get(Calendar.MINUTE))))
         return commands
     }
 
     fun setLasers(leftLaser: Boolean, rightLaser: Boolean) : String {
-        val rightState = if(rightLaser == true)  "1" else "0"
-        val leftState = if(leftLaser == true)  "1" else "0"
-        return buildCommand(QPointerCommands.UL, rightState + leftState)
+        val rightState = if(rightLaser)  "1" else "0"
+        val leftState = if(leftLaser)  "1" else "0"
+        return buildCommand(QPointerCommands.SET_LASER_STATE, rightState + leftState)
     }
 
     private fun buildCommand(command: QPointerCommands, commandValue: String): String {
