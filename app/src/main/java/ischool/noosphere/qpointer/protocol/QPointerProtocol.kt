@@ -21,7 +21,7 @@ object QPointerProtocol {
     }
 
     fun setColor(color: String) : String {
-        return buildCommand(QPointerCommands.SET_COLOR, color)
+        return buildCommand(QPointerCommands.SET_COLOR, color.toUpperCase())
     }
 
     fun unsetAlarm():  String {
